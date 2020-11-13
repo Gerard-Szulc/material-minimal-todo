@@ -1,3 +1,6 @@
+import { SET_FILTER } from "../actions/actionTypes.js";
+
+
 const initialState = {
     filters: {
         status: 'All',
@@ -9,7 +12,7 @@ const initialState = {
 const filtersReducer = (state = initialState, action) => {
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
-        case 'filters/statusFilterChanged': {
+        case SET_FILTER: {
             return {
                 // Copy the whole state
                 ...state,

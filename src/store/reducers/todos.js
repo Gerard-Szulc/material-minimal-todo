@@ -1,3 +1,6 @@
+import { ADD_TODO, TOGGLE_TODO} from "../actions/actionTypes.js";
+
+
 const initialState = {
     todos: [
         {id: 0, text: 'Learn React', completed: true},
@@ -15,7 +18,7 @@ function nextTodoId(todos) {
 const todosReducer = (state = initialState, action) => {
     // The reducer normally looks at the action type field to decide what happens
     switch (action.type) {
-        case 'todos/todoAdded': {
+        case ADD_TODO: {
             // We need to return a new state object
             return {
                 // that has all the existing state data
@@ -34,14 +37,14 @@ const todosReducer = (state = initialState, action) => {
                 ]
             }
         }
-        case 'todos/todoToggled': {
+        case TOGGLE_TODO: {
             return {
                 // Again copy the entire state object
                 ...state,
                 // This time, we need to make a copy of the old todos array
                 todos: state.todos.map(todo => {
                     // If this isn't the todo item we're looking for, leave it alone
-                    if (todo.id !== action.payload) {
+                    if (todo.id !== action.payload.id) {
                         return todo
                     }
 
