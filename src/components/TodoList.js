@@ -3,8 +3,7 @@ import {Grid} from "@material-ui/core";
 import {connect} from "react-redux";
 
 const mapStateToProps = state => {
-    const { todos, ...rest } = state
-    // const todos = getTodosByVisibilityFilter(state, visibilityFilter)
+    const { todos } = state
     return { todos }
 }
 

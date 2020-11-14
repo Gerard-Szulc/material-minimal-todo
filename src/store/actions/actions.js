@@ -1,18 +1,19 @@
-import { ADD_TODO, TOGGLE_TODO, SET_FILTER } from "./actionTypes";
+import { ADD_TODO, TOGGLE_TODO, SET_FILTER, SET_COLOR } from "./actionTypes";
 
-let nextTodoId = 0;
 
-export const addTodo = content => ({
+
+export const addTodo = ({text, color}) => ({
     type: ADD_TODO,
-    payload: {
-        id: ++nextTodoId,
-        content
-    }
+    payload: {text, color}
 });
 
 export const toggleTodo = id => ({
     type: TOGGLE_TODO,
     payload: { id }
+});
+export const changeColor = ({id, color}) => ({
+    type: SET_COLOR,
+    payload: { id, color }
 });
 
 export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });

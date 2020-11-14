@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
@@ -6,8 +6,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {toggleTodo, changeColor} from '../store/actions/actions.js'
+import {toggleTodo, changeColor, addTodo} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
+import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {},
@@ -24,43 +25,46 @@ const useStyles = makeStyles({
     },
 });
 let timeoutId
-const TodoItem = (props) => {
+const AddTask = (props) => {
+    const [text, setText] = useState('')
+    const [color, setColor] = useState('#ffffff')
     const dispatch = useDispatch()
 
     const classes = useStyles();
 
 
-    const handleColorChange = (color) => {
+    const handleColorChange = (changedColor) => {
         clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {
-            dispatch(changeColor({id: props.todoItem.id, color}))
-        }, 500)
+            setColor(changedColor)
+        }, 100)
+    }
+    const handleTextChange = (text) => {
+       setText(text)
+    }
+    const handleAddTask = () => {
+        dispatch(addTodo({text, color}))
+        setText('')
+        setColor('#ffffff')
     }
     return (
         <Paper elevation={5}>
-            <Card className={classes.root} style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
+            <Card className={classes.root}>
                 <CardContent>
-                    <Typography variant="h5" component="h2">
-                        {props.todoItem.text}
-                    </Typography>
-                    {/*<Typography className={classes.pos} color="textSecondary">*/}
-                    {/*    adjective*/}
-                    {/*</Typography>*/}
                 </CardContent>
                 <CardActions>
-                    <Checkbox
-                        checked={props.todoItem.completed}
-                        onChange={() => dispatch(toggleTodo(props.todoItem.id))}
-                        inputProps={{'aria-label': 'primary checkbox'}}
-                    />
+                    <input
+                        type={"text"}
+                        value={text}
+                        onChange={(event) => handleTextChange(event.target.value)}/>
                     <input
                         type={"color"}
-                        value={props.todoItem.color ? props.todoItem.color : '#ffffff'}
+                        value={color}
                         onChange={(event) => handleColorChange(event.target.value)}/>
-                    {/*<Button size="small">Learn More</Button>*/}
+                    <Button size="small" onClick={handleAddTask}>Add</Button>
                 </CardActions>
             </Card>
         </Paper>
     );
 }
-export default connect(null, {toggleTodo, changeColor})(TodoItem)
+export default connect(null, {addTodo})(AddTask)
