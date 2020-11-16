@@ -80,7 +80,7 @@ const TodoItem = (props) => {
                             onChange={(event) => handleTextChange(event.target.value)}
                             aria-describedby="add-task-error-text"
                         />
-                        {textValidationVisible ? <FormHelperText id="add-task-error-text">Error</FormHelperText> : ''}
+                        {textValidationVisible ? <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
                         <input
                             type={"color"}
                             value={color}

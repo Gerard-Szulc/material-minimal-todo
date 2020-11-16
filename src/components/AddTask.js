@@ -71,7 +71,7 @@ const AddTask = (props) => {
                     onChange={(event) => handleTextChange(event.target.value)}
                     aria-describedby="add-task-error-text"
                 />
-                {textValidationVisible ? <FormHelperText id="add-task-error-text">Error</FormHelperText> : ''}
+                {textValidationVisible ? <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
 
             </FormControl>
             <label htmlFor={"add-task-text"}>Color</label>
