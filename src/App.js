@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     paddingTop: '70px',
+    paddingBottom: '5em',
     flexGrow: 1,
     padding: theme.spacing(3),
   },
@@ -51,7 +52,7 @@ function App() {
         </AppBar>
       </nav>
       <main className={classes.content}>
-        <TodoList></TodoList>
+        <TodoList/>
       </main>
       <BottomPanel/>
     </div>

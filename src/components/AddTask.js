@@ -1,21 +1,19 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import {toggleTodo, changeColor, addTodo} from '../store/actions/actions.js'
+import {addTodo} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button} from "@material-ui/core";
+import {Button, FormControl, FormHelperText, Input, TextField, InputLabel} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {},
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
+    addTaskForm: {
+        width: "100%",
+        display:"flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    textValidationError: {
+        color: "red",
     },
     title: {
         fontSize: 14,
@@ -27,6 +25,7 @@ const useStyles = makeStyles({
 let timeoutId
 const AddTask = (props) => {
     const [text, setText] = useState('')
+    const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [color, setColor] = useState('#ffffff')
     const dispatch = useDispatch()
 
@@ -40,31 +39,52 @@ const AddTask = (props) => {
         }, 100)
     }
     const handleTextChange = (text) => {
-       setText(text)
+        if (text.length > 0) {
+            setTextValidationVisible(false)
+        }
+        setText(text)
     }
-    const handleAddTask = () => {
+    const handleAddTask = (closeBottom) => {
+        if (text.length === 0) {
+            setTextValidationVisible(true)
+            return
+        }
         dispatch(addTodo({text, color}))
         setText('')
         setColor('#ffffff')
+        closeBottom()
     }
     return (
-        <Paper elevation={5}>
-            <Card className={classes.root}>
-                <CardContent>
-                </CardContent>
-                <CardActions>
-                    <input
-                        type={"text"}
-                        value={text}
-                        onChange={(event) => handleTextChange(event.target.value)}/>
-                    <input
-                        type={"color"}
-                        value={color}
-                        onChange={(event) => handleColorChange(event.target.value)}/>
-                    <Button size="small" onClick={handleAddTask}>Add</Button>
-                </CardActions>
-            </Card>
-        </Paper>
+        <form
+            className={classes.addTaskForm}
+            onSubmit={(e) => {
+            e.preventDefault()
+            handleAddTask(props.closeFooter)
+        }}>
+            <FormControl error={textValidationVisible}>
+                <InputLabel htmlFor="add-task-text">Text</InputLabel>
+                <Input
+                    id="add-task-text"
+                    variant="outlined"
+                    multiline
+                    value={text}
+                    onChange={(event) => handleTextChange(event.target.value)}
+                    aria-describedby="add-task-error-text"
+                />
+                {textValidationVisible ? <FormHelperText id="add-task-error-text">Error</FormHelperText> : ''}
+
+            </FormControl>
+            <label htmlFor={"add-task-text"}>Color</label>
+            <input
+                id={"add-task-color"}
+                type={"color"}
+                value={color}
+                onChange={(event) => handleColorChange(event.target.value)}/>
+            <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
+        </form>
+        //     </CardActions>
+        // </Card>
+        // </Paper>
     );
 }
 export default connect(null, {addTodo})(AddTask)

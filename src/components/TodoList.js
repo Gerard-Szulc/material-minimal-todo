@@ -10,7 +10,7 @@ const mapStateToProps = state => {
 function TodoList(props) {
     return (
         <Grid container spacing={3}>
-            {props.todos.todos ? props.todos.todos.map(todo => (
+            {props.todos.todos ? props.todos.todos.filter(todo => !todo.completed).map(todo => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={`todo-item-${todo.id}`}>
                     <TodoItem todoItem={todo} xs={3}/>
                 </Grid>

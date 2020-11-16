@@ -1,4 +1,4 @@
-import {ADD_TODO, SET_COLOR, TOGGLE_TODO} from "../actions/actionTypes.js";
+import {ADD_TODO, SET_COLOR, TOGGLE_TODO, SET_TEXT} from "../actions/actionTypes.js";
 
 
 const initialState = {
@@ -56,6 +56,21 @@ const todosReducer = (state = initialState, action) => {
                     return {
                         ...todo,
                         color: action.payload.color
+                    }
+                })
+            }
+        }
+        case SET_TEXT: {
+            return {
+                ...state,
+                todos: state.todos.map(todo => {
+                    if (todo.id !== action.payload.id) {
+                        return todo
+                    }
+
+                    return {
+                        ...todo,
+                        text: action.payload.text
                     }
                 })
             }

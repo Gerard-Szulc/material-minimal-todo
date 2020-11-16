@@ -4,15 +4,15 @@ footer {
     width: 100vw;
 }
 
-footer .app-bar {
-    top: auto;
-    right: auto;
-    left: auto;
-    /*bottom: 0;*/
-    border-radius: 16px 16px 0 0;
-}
-.app-bar > div {
-    bottom: 15px;
-    display: flex;
-    justify-content: center;
-}
+/*footer .app-bar {*/
+/*    top: auto;*/
+/*    right: auto;*/
+/*    left: auto;*/
+/*    !*bottom: 0;*!*/
+/*    border-radius: 16px 16px 0 0;*/
+/*}*/
+/*.app-bar > div {*/
+/*    bottom: 15px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
