@@ -6,23 +6,12 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {toggleTodo, changeColor, addTodo, changeText} from '../store/actions/actions.js'
+import {toggleTodo, changeColor, changeText} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {},
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
 });
 let timeoutId
 const TodoItem = (props) => {
@@ -68,32 +57,33 @@ const TodoItem = (props) => {
     }
     return (
         <Paper elevation={5}>
-            <Card className={classes.root} style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
+            <Card className={classes.root}
+                  style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
                 <CardContent>
                     {editVisible ? <FormControl error={textValidationVisible}>
-                        <InputLabel htmlFor="add-task-text">Text</InputLabel>
-                        <Input
-                            id="add-task-text"
-                            variant="outlined"
-                            multiline
-                            value={text}
-                            onChange={(event) => handleTextChange(event.target.value)}
-                            aria-describedby="add-task-error-text"
-                        />
-                        {textValidationVisible ? <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
-                        <input
-                            type={"color"}
-                            value={color}
-                            onChange={(event) => handleColorChange(event.target.value)}/>
-                        <Button size="small" onClick={handleSaveChanges}>Save</Button>
-                    </FormControl> : <Typography onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{wordBreak: "break-word", whiteSpace: "pre-wrap"
-                    }}>
-                        {props.todoItem.text}
-                    </Typography>
+                            <InputLabel htmlFor="add-task-text">Text</InputLabel>
+                            <Input
+                                id="add-task-text"
+                                variant="outlined"
+                                multiline
+                                value={text}
+                                onChange={(event) => handleTextChange(event.target.value)}
+                                aria-describedby="add-task-error-text"
+                            />
+                            {textValidationVisible ?
+                                <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
+                            <input
+                                type={"color"}
+                                value={color}
+                                onChange={(event) => handleColorChange(event.target.value)}/>
+                            <Button size="small" onClick={handleSaveChanges}>Save</Button>
+                        </FormControl> :
+                        <Typography title={"Double click to edit"} onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{
+                            wordBreak: "break-word", whiteSpace: "pre-wrap"
+                        }}>
+                            {props.todoItem.text}
+                        </Typography>
                     }
-                    {/*<Typography className={classes.pos} color="textSecondary">*/}
-                    {/*    adjective*/}
-                    {/*</Typography>*/}
                 </CardContent>
                 <CardActions>
                     <Checkbox

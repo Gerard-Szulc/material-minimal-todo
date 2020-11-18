@@ -2,11 +2,7 @@ import {ADD_TODO, SET_COLOR, TOGGLE_TODO, SET_TEXT} from "../actions/actionTypes
 
 
 const initialState = {
-    todos: [
-        {id: 0, text: 'Learn React', completed: true},
-        {id: 1, text: 'Learn Redux', completed: false, color: 'purple'},
-        {id: 2, text: 'Build something fun!', completed: false, color: 'blue'}
-    ],
+    todos: [],
 }
 
 function nextTodoId(todos) {

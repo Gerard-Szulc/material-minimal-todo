@@ -1,4 +1,4 @@
-import {ADD_TODO, TOGGLE_TODO, SET_FILTER, SET_COLOR, SET_TEXT} from "./actionTypes";
+import {ADD_TODO, TOGGLE_TODO, SET_FILTER, SET_COLOR, SET_TEXT, TOGGLE_MENU} from "./actionTypes";
 
 
 
@@ -21,5 +21,9 @@ export const changeText = ({id, text}) => ({
     type: SET_TEXT,
     payload: { id, text }
 });
+
+export const toggleMenu = () => ({
+    type: TOGGLE_MENU
+})
 
 export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });

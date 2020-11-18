@@ -1,62 +1,107 @@
-// import logo from './logo.svg';
 import './App.css';
 import AppBar from '@material-ui/core/AppBar';
 import {makeStyles} from "@material-ui/core/styles";
-import TodoList from "./components/TodoList.js";
 import BottomPanel from "./components/BottomPanel.js";
+import {DrawerMenu} from "./components/DrawerMenu.js";
+import {Container, IconButton, Typography} from "@material-ui/core";
+import {useDispatch} from "react-redux";
+import {toggleMenu} from "./store/actions/actions.js";
+import MenuIcon from '@material-ui/icons/Menu';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {routes} from "./router/routes.js";
 
-// const MainAppScreen = styled.main`
-// display: flex;
-// justify-content: center;
-// `
-// const Footer = styled.footer`
-// position: fixed;
-// bottom: 0px;
-// width: 100vw;
-// `
-// const FooterContent = styled.div`
-// display: flex;
-// justify-content: center;
-// width: 100vw;
-// `
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    [theme.breakpoints.up('sm')]: {
-      width: `100%`,
+    root: {
+        display: 'flex',
     },
-  },
-  navHeader: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex',
-      justifyContent: 'center'
+    navHeader: {
+        [theme.breakpoints.up('sm')]: {
+            display: 'flex',
+            justifyContent: 'center'
+        }
+    },
+    content: {
+        paddingTop: '70px',
+        paddingBottom: '5em',
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(95% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        }
+    },
+    drawer: {
+        [theme.breakpoints.up('sm')]: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
+    },
+    appBar: {
+        display: 'flex',
+        flexDirection: "row",
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        },
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+            display: 'none',
+        },
+    },
+    drawerPaper: {
+        width: drawerWidth,
+    },
+    bottomPanel: {
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: drawerWidth,
+        }
     }
-  },
-  content: {
-    paddingTop: '70px',
-    paddingBottom: '5em',
-    flexGrow: 1,
-    padding: theme.spacing(3),
-  },
 }));
 
 function App() {
-  const classes = useStyles();
-  return (
-    <div className="App">
-      <nav>
-        <AppBar position="fixed" className={classes.appBar}>
-            <h3 className={classes.navHeader}>Minimal-Todo</h3>
-        </AppBar>
-      </nav>
-      <main className={classes.content}>
-        <TodoList/>
-      </main>
-      <BottomPanel/>
-    </div>
-  );
+    const dispatch = useDispatch()
+
+    const classes = useStyles();
+    const handleDrawerToggle = () => {
+        dispatch(toggleMenu())
+    }
+    return (
+        <BrowserRouter>
+            <div className="App">
+                <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
+                <AppBar position="fixed" className={classes.appBar}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        className={classes.menuButton}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <h3 className={classes.navHeader}><Container><Typography>Minimal-Todo</Typography></Container></h3>
+                </AppBar>
+                <main className={classes.content}>
+                    <Switch>
+                    {routes.map((route, index) => (
+                        // Render more <Route>s with the same paths as
+                        // above, but different components this time.
+                        <Route
+                            key={index}
+                            path={route.path}
+                            exact={route.exact}
+                            children={<route.main />}
+                        />
+                    ))}
+                    </Switch>
+                </main>
+                <BottomPanel drawerWidth={drawerWidth}/>
+            </div>
+        </BrowserRouter>
+    );
 }
 
 export default App;

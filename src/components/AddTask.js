@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, TextField, InputLabel} from "@material-ui/core";
+import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 
 const useStyles = makeStyles({
     root: {},
@@ -14,12 +14,6 @@ const useStyles = makeStyles({
     },
     textValidationError: {
         color: "red",
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
     },
 });
 let timeoutId
@@ -82,9 +76,6 @@ const AddTask = (props) => {
                 onChange={(event) => handleColorChange(event.target.value)}/>
             <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
         </form>
-        //     </CardActions>
-        // </Card>
-        // </Paper>
     );
 }
 export default connect(null, {addTodo})(AddTask)
