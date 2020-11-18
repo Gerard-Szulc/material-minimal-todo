@@ -6,7 +6,7 @@ import {toggleMenu} from "../store/actions/actions.js";
 import {useDispatch, useSelector} from "react-redux";
 import {createSelector} from "reselect";
 import {routes} from "../router/routes.js";
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +38,7 @@ export const DrawerMenu = (props) => {
 
     const handleChangeRoute = ({path}) => {
         history.push(path);
+        handleDrawerToggle()
     }
     const drawer = (
         <div>
