@@ -6,7 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {toggleTodo, changeColor, changeText} from '../store/actions/actions.js'
+import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 
@@ -51,6 +51,7 @@ const TodoItem = (props) => {
         }
         dispatch(changeText({id: props.todoItem.id, text}))
         dispatch(changeColor({id: props.todoItem.id, color}))
+        dispatch(saveTodos())
         setText('')
         setColor('')
         setEditVisible(false)

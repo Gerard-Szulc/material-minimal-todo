@@ -1,8 +1,19 @@
-import {ADD_TODO, SET_COLOR, TOGGLE_TODO, SET_TEXT} from "../actions/actionTypes.js";
+import {
+    ADD_TODO,
+    SET_COLOR,
+    TOGGLE_TODO,
+    SET_TEXT,
+    TODO_FETCH_SUCCEEDED,
+    TODO_FETCH_FAILED, SET_TODOS
+} from "../actions/actionTypes.js";
 
+const FETCH_COMPLETED = "FETCH_COMPLETED"
+const FETCH_PENDING = "FETCH_PENDING"
+const FETCH_ERROR = "FETCH_ERROR"
 
 const initialState = {
     todos: [],
+    fetchStatus: FETCH_PENDING
 }
 
 function nextTodoId(todos) {
@@ -23,6 +34,14 @@ const todosReducer = (state = initialState, action) => {
                         color: action.payload.color,
                         completed: false
                     }
+                ]
+            }
+        }
+        case SET_TODOS: {
+            return {
+                ...state,
+                todos: [
+                    ...action.todos
                 ]
             }
         }
@@ -69,6 +88,18 @@ const todosReducer = (state = initialState, action) => {
                         text: action.payload.text
                     }
                 })
+            }
+        }
+        case TODO_FETCH_SUCCEEDED: {
+            return {
+                ...state,
+                fetchStatus: FETCH_COMPLETED
+            }
+        }
+        case TODO_FETCH_FAILED: {
+            return {
+                ...state,
+                fetchStatus: FETCH_ERROR
             }
         }
         default:

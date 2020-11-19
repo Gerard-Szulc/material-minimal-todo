@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {addTodo} from '../store/actions/actions.js'
+import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 
@@ -44,10 +44,12 @@ const AddTask = (props) => {
             return
         }
         dispatch(addTodo({text, color}))
+        dispatch(saveTodos())
         setText('')
         setColor('#ffffff')
         closeBottom()
     }
+
     return (
         <form
             className={classes.addTaskForm}

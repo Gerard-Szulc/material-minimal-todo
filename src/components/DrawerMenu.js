@@ -38,7 +38,9 @@ export const DrawerMenu = (props) => {
 
     const handleChangeRoute = ({path}) => {
         history.push(path);
-        handleDrawerToggle()
+        if (mobileOpen) {
+            handleDrawerToggle()
+        }
     }
     const drawer = (
         <div>
@@ -46,7 +48,7 @@ export const DrawerMenu = (props) => {
             <Divider/>
             <List>
                 {routes.map((route, index) => (
-                    <ListItem button key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
+                    <ListItem button  key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                         <ListItemText primary={route.sidebar()}/>
                     </ListItem>
