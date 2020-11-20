@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import configureStore from "./store/configureStore.js";
 import mySaga from "./sagas/saga.js";
+import 'leaflet/dist/leaflet.css';
 
 const store = configureStore()
 store.runSaga(mySaga)

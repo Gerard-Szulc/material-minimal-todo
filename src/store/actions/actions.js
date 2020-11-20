@@ -2,9 +2,9 @@ import {ADD_TODO, TOGGLE_TODO, SET_FILTER, SET_COLOR, SET_TEXT, TOGGLE_MENU, SAV
 
 
 
-export const addTodo = ({text, color}) => ({
+export const addTodo = ({text, color, position}) => ({
     type: ADD_TODO,
-    payload: {text, color}
+    payload: {text, color, position}
 });
 
 export const toggleTodo = id => ({

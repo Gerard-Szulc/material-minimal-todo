@@ -56,6 +56,10 @@ const TodoItem = (props) => {
         setColor('')
         setEditVisible(false)
     }
+    const handleToggleTodo = () => {
+        dispatch(toggleTodo(props.todoItem.id))
+        dispatch(saveTodos())
+    }
     return (
         <Paper elevation={5}>
             <Card className={classes.root}
@@ -83,13 +87,15 @@ const TodoItem = (props) => {
                             wordBreak: "break-word", whiteSpace: "pre-wrap"
                         }}>
                             {props.todoItem.text}
+                            <br/>
+                            Position: {props.todoItem.position ? `${props.todoItem.position.lat} ${props.todoItem.position.lng}`  : ''}
                         </Typography>
                     }
                 </CardContent>
                 <CardActions>
                     <Checkbox
                         checked={props.todoItem.completed}
-                        onChange={() => dispatch(toggleTodo(props.todoItem.id))}
+                        onChange={() => handleToggleTodo()}
                         inputProps={{'aria-label': 'primary checkbox'}}
                     />
                 </CardActions>

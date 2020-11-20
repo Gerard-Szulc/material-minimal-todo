@@ -15,6 +15,7 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     accordion: {
+        minWidth: '270px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

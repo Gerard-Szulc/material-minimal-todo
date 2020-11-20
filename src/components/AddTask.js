@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
+import {LMap} from "./LMap.js";
+import {setPosition} from "leaflet/src/dom/DomUtil.js";
+import {useMapEvents} from "react-leaflet";
 
 const useStyles = makeStyles({
     root: {},
@@ -21,7 +24,18 @@ const AddTask = (props) => {
     const [text, setText] = useState('')
     const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [color, setColor] = useState('#ffffff')
+    const [position, setPosition] = useState({lat: 0, lng: 0})
     const dispatch = useDispatch()
+
+    // useEffect(() => {
+    //     navigator.geolocation.getCurrentPosition((location) => {
+    //         console.log(location)
+    //         setPosition({lat: location.coords.latitude, lng: location.coords.longitude})
+    //     })
+    //     return () => {
+    //
+    //     }
+    // },[])
 
     const classes = useStyles();
 
@@ -43,7 +57,7 @@ const AddTask = (props) => {
             setTextValidationVisible(true)
             return
         }
-        dispatch(addTodo({text, color}))
+        dispatch(addTodo({text, color, position}))
         dispatch(saveTodos())
         setText('')
         setColor('#ffffff')
@@ -77,6 +91,7 @@ const AddTask = (props) => {
                 value={color}
                 onChange={(event) => handleColorChange(event.target.value)}/>
             <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
+            <LMap position={position} handleChageMarkerPos={(position) => setPosition(position)}/>
         </form>
     );
 }

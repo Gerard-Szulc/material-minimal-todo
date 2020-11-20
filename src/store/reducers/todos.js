@@ -32,6 +32,7 @@ const todosReducer = (state = initialState, action) => {
                         id: nextTodoId(state.todos),
                         text: action.payload.text,
                         color: action.payload.color,
+                        position: action.payload.position,
                         completed: false
                     }
                 ]
