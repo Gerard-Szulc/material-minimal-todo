@@ -65,6 +65,8 @@ function App() {
     const dispatch = useDispatch()
 
     const classes = useStyles();
+    dispatch({type: 'TODO_FETCH_REQUESTED'})
+
     const handleDrawerToggle = () => {
         dispatch(toggleMenu())
     }

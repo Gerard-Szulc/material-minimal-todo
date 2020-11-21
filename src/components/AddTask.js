@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import {LMap} from "./LMap.js";
-import {setPosition} from "leaflet/src/dom/DomUtil.js";
-import {useMapEvents} from "react-leaflet";
 
 const useStyles = makeStyles({
     root: {},
@@ -90,8 +88,8 @@ const AddTask = (props) => {
                 type={"color"}
                 value={color}
                 onChange={(event) => handleColorChange(event.target.value)}/>
-            <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
             <LMap position={position} handleChageMarkerPos={(position) => setPosition(position)}/>
+            <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
         </form>
     );
 }
