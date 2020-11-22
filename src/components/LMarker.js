@@ -39,7 +39,7 @@ function report(state) {
 
 handlePermission();
 L.Marker.prototype.options.icon = DefaultIcon;
-export default function LMarker(props) {
+export default function LMarker({editable = true, handleSetPosition, markerPos}) {
     const [draggable, setDraggable] = useState(false)
     const markerRef = useRef(null)
     const eventHandlers = useMemo(
@@ -47,39 +47,30 @@ export default function LMarker(props) {
             dragend() {
                 const marker = markerRef.current
                 if (marker != null) {
-                    props.handleSetPosition(marker.getLatLng())
+                    let markerData = marker.getLatLng()
+                    handleSetPosition({lat: markerData.lat, lng: markerData.lng})
                 }
             },
         }),
-        [props],
+        [handleSetPosition],
     )
 
-    const map = useMapEvents({
-        touch() {
-            map.locate()
-        },
-        click() {
-            map.locate()
-        },
-        locationfound(e) {
-            props.handleSetPosition(e.latlng)
-            map.flyTo(e.latlng, map.getZoom())
-        },
-    })
-
     const toggleDraggable = useCallback(() => {
+        if(!editable) {
+            return
+        }
         setDraggable((d) => !d)
-    }, [])
+    }, [editable])
 
     return (
         <Marker
             draggable={draggable}
             eventHandlers={eventHandlers}
-            position={props.markerPos}
+            position={markerPos}
             ref={markerRef}
         >
             <Popup minWidth={90}>
-        <span  onClick={toggleDraggable}>
+        <span onClick={toggleDraggable}>
           {draggable
               ? 'Marker is draggable'
               : 'Click here to make marker draggable'}

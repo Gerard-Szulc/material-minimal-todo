@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem.js";
 import {Container, Grid} from "@material-ui/core";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {createSelector} from "reselect";
 
 
@@ -10,8 +10,6 @@ const selectNotDoneTodos = (filter) => createSelector(
 )
 
 function TodoList(props) {
-    const dispatch = useDispatch()
-
     const todos = useSelector(selectNotDoneTodos(props.todosCompletionFilter))
 
     return (

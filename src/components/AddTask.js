@@ -1,15 +1,16 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
+import {Button, FormControl, FormHelperText, Input, InputLabel, FormControlLabel} from "@material-ui/core";
 import {LMap} from "./LMap.js";
+import Checkbox from '@material-ui/core/Checkbox';
 
 const useStyles = makeStyles({
     root: {},
     addTaskForm: {
         width: "100%",
-        display:"flex",
+        display: "flex",
         flexDirection: "column",
         alignItems: "center"
     },
@@ -17,25 +18,25 @@ const useStyles = makeStyles({
         color: "red",
     },
 });
+const getLocation = (setPosition) => {
+    console.log('test')
+    navigator.geolocation.getCurrentPosition((location) => {
+        setPosition({lat: location.coords.latitude, lng:location.coords.longitude})
+    })
+}
 let timeoutId
 const AddTask = (props) => {
     const [text, setText] = useState('')
     const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [color, setColor] = useState('#ffffff')
-    const [position, setPosition] = useState({lat: 0, lng: 0})
+    const [includePosition, setIncludePosition] = useState(false)
+    const [position, setPosition] = useState(null)
     const dispatch = useDispatch()
-
-    // useEffect(() => {
-    //     navigator.geolocation.getCurrentPosition((location) => {
-    //         console.log(location)
-    //         setPosition({lat: location.coords.latitude, lng: location.coords.longitude})
-    //     })
-    //     return () => {
-    //
-    //     }
-    // },[])
-
     const classes = useStyles();
+    //
+    // useEffect(() => {
+    //     getLocation(setPosition)
+    // }, [])
 
 
     const handleColorChange = (changedColor) => {
@@ -62,13 +63,22 @@ const AddTask = (props) => {
         closeBottom()
     }
 
+    const handleSetIncludePositon = () => {
+        if (includePosition) {
+            setPosition(null)
+        } else {
+            getLocation(setPosition)
+        }
+        setIncludePosition(!includePosition)
+
+    }
     return (
         <form
             className={classes.addTaskForm}
             onSubmit={(e) => {
-            e.preventDefault()
-            handleAddTask(props.closeFooter)
-        }}>
+                e.preventDefault()
+                handleAddTask(props.closeFooter)
+            }}>
             <FormControl error={textValidationVisible}>
                 <InputLabel htmlFor="add-task-text">Text</InputLabel>
                 <Input
@@ -79,7 +89,8 @@ const AddTask = (props) => {
                     onChange={(event) => handleTextChange(event.target.value)}
                     aria-describedby="add-task-error-text"
                 />
-                {textValidationVisible ? <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
+                {textValidationVisible ?
+                    <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
 
             </FormControl>
             <label htmlFor={"add-task-text"}>Color</label>
@@ -88,7 +99,23 @@ const AddTask = (props) => {
                 type={"color"}
                 value={color}
                 onChange={(event) => handleColorChange(event.target.value)}/>
-            <LMap position={position} handleChageMarkerPos={(position) => setPosition(position)}/>
+            <FormControl
+            >
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={includePosition}
+                            onChange={handleSetIncludePositon}
+                            name="includePosition"
+                            color="primary"
+                        />
+                    }
+                    label="Include location"
+                />
+            </FormControl>
+
+            {includePosition ? <LMap position={position} handleChangeMarkerPos={(pos) => setPosition(pos)}/> : ''}
+
             <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
         </form>
     );

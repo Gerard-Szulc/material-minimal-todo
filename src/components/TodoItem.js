@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
+import {ViewOnlyMap} from "./ViewOnlyMap.js";
+import {LMap} from "./LMap.js";
 
 const useStyles = makeStyles({
     root: {},
@@ -88,7 +90,7 @@ const TodoItem = (props) => {
                         }}>
                             {props.todoItem.text}
                             <br/>
-                            Position: {props.todoItem.position ? `${props.todoItem.position.lat} ${props.todoItem.position.lng}`  : ''}
+                            {props.todoItem.position ? <ViewOnlyMap position={props.todoItem.position}/>  : ''}
                         </Typography>
                     }
                 </CardContent>
