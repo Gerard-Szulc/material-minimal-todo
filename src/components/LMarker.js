@@ -1,5 +1,5 @@
 import {useCallback, useMemo, useRef, useState} from 'react'
-import {Marker, Popup, useMapEvents} from "react-leaflet";
+import {Marker, Popup} from "react-leaflet";
 import L from 'leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png';

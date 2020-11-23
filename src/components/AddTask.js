@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";

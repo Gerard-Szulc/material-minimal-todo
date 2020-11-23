@@ -9,8 +9,6 @@ import {toggleMenu} from "./store/actions/actions.js";
 import MenuIcon from '@material-ui/icons/Menu';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {routes} from "./router/routes.js";
-import L from "leaflet";
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({

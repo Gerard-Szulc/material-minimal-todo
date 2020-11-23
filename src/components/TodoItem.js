@@ -10,7 +10,6 @@ import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/a
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
-import {LMap} from "./LMap.js";
 
 const useStyles = makeStyles({
     root: {},
