@@ -8,6 +8,8 @@ import configureStore from "./store/configureStore.js";
 import mySaga from "./sagas/saga.js";
 import 'leaflet/dist/leaflet.css';
 import {startFirebase} from "./firebase/init.js";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+serviceWorkerRegistration.register();
 
 const store = configureStore()
 store.runSaga(mySaga)
