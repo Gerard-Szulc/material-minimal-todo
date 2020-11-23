@@ -15,18 +15,21 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     accordion: {
-        minWidth: '270px',
+
+        // minWidth: '270px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         position: "relative",
-        bottom: '2em'
+        bottom: '2em',
     },
     bottomPanel: {
         [theme.breakpoints.up('sm')]: {
             width: `calc(100% - ${drawerWidth}px)`,
             marginLeft: drawerWidth,
-        }
+        },
+        zIndex: 1001
+
     }
 }));
 

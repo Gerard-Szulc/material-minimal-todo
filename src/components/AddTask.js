@@ -79,7 +79,7 @@ const AddTask = (props) => {
                 e.preventDefault()
                 handleAddTask(props.closeFooter)
             }}>
-            <FormControl error={textValidationVisible}>
+            <FormControl error={textValidationVisible} style={{width: "90%"}}>
                 <InputLabel htmlFor="add-task-text">Text</InputLabel>
                 <Input
                     id="add-task-text"
@@ -93,7 +93,7 @@ const AddTask = (props) => {
                     <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
 
             </FormControl>
-            <label htmlFor={"add-task-text"}>Color</label>
+            <InputLabel htmlFor={"add-task-color"}>Color</InputLabel>
             <input
                 id={"add-task-color"}
                 type={"color"}

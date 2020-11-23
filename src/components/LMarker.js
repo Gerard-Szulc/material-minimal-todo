@@ -14,30 +14,7 @@ let DefaultIcon = L.icon({
     shadowAnchor: [10, 41], // point of the icon which will correspond to marker's location
     popupAnchor: [0, -31]
 });
-function handlePermission() {
-    navigator.permissions.query({name:'geolocation'}).then(function(result) {
-        if (result.state === 'granted') {
-            report(result.state);
-            // geoBtn.style.display = 'none';
-        } else if (result.state === 'prompt') {
-            report(result.state);
-            // geoBtn.style.display = 'none';
-            navigator.geolocation.getCurrentPosition((loc) => console.log('perm allowed', loc));
-        } else if (result.state === 'denied') {
-            report(result.state);
-            // geoBtn.style.display = 'inline';
-        }
-        result.onchange = function() {
-            report(result.state);
-        }
-    });
-}
 
-function report(state) {
-    console.log('Permission ' + state);
-}
-
-handlePermission();
 L.Marker.prototype.options.icon = DefaultIcon;
 export default function LMarker({editable = true, handleSetPosition, markerPos}) {
     const [draggable, setDraggable] = useState(false)

@@ -9,6 +9,7 @@ import {toggleMenu} from "./store/actions/actions.js";
 import MenuIcon from '@material-ui/icons/Menu';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import {routes} from "./router/routes.js";
+import L from "leaflet";
 
 const drawerWidth = 240;
 
@@ -60,6 +61,34 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
+
+function handlePermission() {
+    navigator.permissions.query({name:'geolocation'}).then(function(result) {
+        if (result.state === 'granted') {
+            report(result.state);
+            // geoBtn.style.display = 'none';
+        } else if (result.state === 'prompt') {
+            report(result.state);
+            // geoBtn.style.display = 'none';
+            navigator.geolocation.getCurrentPosition((loc) => console.log('perm allowed', loc));
+        } else if (result.state === 'denied') {
+            report(result.state);
+            // geoBtn.style.display = 'inline';
+        }
+        result.onchange = function() {
+            report(result.state);
+        }
+
+    });
+    navigator.permissions.query({ name: 'push', userVisibleOnly:true }).then(function(result) { /* ... */ });
+
+}
+
+function report(state) {
+    console.log('Permission ' + state);
+}
+
+handlePermission();
 
 function App() {
     const dispatch = useDispatch()
