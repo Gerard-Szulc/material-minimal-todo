@@ -2,6 +2,7 @@ import TodoItem from "./TodoItem.js";
 import {Container, Grid} from "@material-ui/core";
 import {useSelector} from "react-redux";
 import {createSelector} from "reselect";
+import Skeleton from '@material-ui/lab/Skeleton';
 
 
 const selectNotDoneTodos = (filter) => createSelector(
@@ -20,7 +21,13 @@ function TodoList(props) {
                         <Grid item xs={12} sm={6} md={4} lg={3} key={`todo-item-${todo.id}`}>
                             <TodoItem todoItem={todo} xs={3}/>
                         </Grid>
-                    )) : <Container>No tasks</Container>}
+                    )) :
+                        [1,2,3,4].map(el => <Grid item xs={12} sm={6} md={4} lg={3} key={`todo-skeleton-item-${el}`}>
+                            <Skeleton animation={false} variant="text" xs={12} sm={6} md={4} lg={3}/>
+                            <Skeleton animation={false} variant="rect" height={118} xs={12} sm={6} md={4} lg={3}/>
+                        </Grid>)
+
+                    }
                 </Grid>
             </Container>
 
