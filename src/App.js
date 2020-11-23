@@ -3,7 +3,7 @@ import AppBar from '@material-ui/core/AppBar';
 import {makeStyles} from "@material-ui/core/styles";
 import BottomPanel from "./components/BottomPanel.js";
 import {DrawerMenu} from "./components/DrawerMenu.js";
-import {Container, IconButton, Typography} from "@material-ui/core";
+import {Container, IconButton, Toolbar, Typography} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {toggleMenu} from "./store/actions/actions.js";
 import MenuIcon from '@material-ui/icons/Menu';
@@ -102,6 +102,7 @@ function App() {
             <div className="App">
                 <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
                 <AppBar position="fixed" className={classes.appBar}>
+                    <Toolbar>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -112,6 +113,7 @@ function App() {
                         <MenuIcon/>
                     </IconButton>
                     <h3 className={classes.navHeader}><Container><Typography>Minimal-Todo</Typography></Container></h3>
+                    </Toolbar>
                 </AppBar>
                 <main className={classes.content}>
                     <Switch>
