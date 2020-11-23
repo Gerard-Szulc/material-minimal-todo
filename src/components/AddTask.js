@@ -95,6 +95,7 @@ const AddTask = (props) => {
             </FormControl>
             <InputLabel htmlFor={"add-task-color"}>Color</InputLabel>
             <input
+                style={{width: "90%"}}
                 id={"add-task-color"}
                 type={"color"}
                 value={color}
