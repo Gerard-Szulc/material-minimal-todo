@@ -2,11 +2,20 @@ import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, InputLabel, FormControlLabel} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    Input,
+    InputLabel,
+    FormControlLabel,
+    ButtonGroup,
+    Container
+} from "@material-ui/core";
 import {LMap} from "./LMap.js";
 import Checkbox from '@material-ui/core/Checkbox';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     root: {},
     addTaskForm: {
         width: "100%",
@@ -14,14 +23,22 @@ const useStyles = makeStyles({
         flexDirection: "column",
         alignItems: "center"
     },
+    addButtonContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    addButton: {
+      width:'100%'
+    },
     textValidationError: {
         color: "red",
     },
-});
+}))
 const getLocation = (setPosition) => {
     console.log('test')
     navigator.geolocation.getCurrentPosition((location) => {
-        setPosition({lat: location.coords.latitude, lng:location.coords.longitude})
+        setPosition({lat: location.coords.latitude, lng: location.coords.longitude})
     })
 }
 let timeoutId
@@ -117,7 +134,22 @@ const AddTask = (props) => {
 
             {includePosition ? <LMap position={position} handleChangeMarkerPos={(pos) => setPosition(pos)}/> : ''}
 
-            <Button size="small" onClick={() => handleAddTask(props.closeFooter)}>Add</Button>
+            <Container className={classes.addButtonContainer}>
+                <ButtonGroup fullWidth>
+                    <Button
+                        className={classes.addButton}
+                        variant="contained"
+                        color="primary"
+                        size="medium"
+                        onClick={() => handleAddTask(props.closeFooter)}
+
+                    >
+                        Add
+                    </Button>
+                </ButtonGroup>
+            </Container>
+
+
         </form>
     );
 }
