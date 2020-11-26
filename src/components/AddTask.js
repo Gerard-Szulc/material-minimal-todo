@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
@@ -14,6 +14,9 @@ import {
 } from "@material-ui/core";
 import {LMap} from "./LMap.js";
 import Checkbox from '@material-ui/core/Checkbox';
+import * as THREE from "three";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -44,12 +47,15 @@ const getLocation = (setPosition) => {
 let timeoutId
 const AddTask = (props) => {
     const [text, setText] = useState('')
+    const [loadedFile, setLoadedFile] = useState(null)
     const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [color, setColor] = useState('#ffffff')
     const [includePosition, setIncludePosition] = useState(false)
     const [position, setPosition] = useState(null)
     const dispatch = useDispatch()
     const classes = useStyles();
+    const mountthree = useRef(null)
+    const fileInput = useRef(null)
     //
     // useEffect(() => {
     //     getLocation(setPosition)
@@ -87,6 +93,72 @@ const AddTask = (props) => {
             getLocation(setPosition)
         }
         setIncludePosition(!includePosition)
+
+    }
+
+    const handleLoadGltf = (e) => {
+        // fileInput.current.value = null
+        let file = e.target.files[ 0 ];
+        let reader = new FileReader();
+
+        // This is code that runs after reader.readAsText() finishes
+        reader.onload = function ( gltfText ) {
+
+            var loader = new GLTFLoader();
+            var renderer = new THREE.WebGLRenderer();
+
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
+            const light = new THREE.Light( 0xf4f5dc ); // soft white light
+            light.castShadow = true
+            const amblight = new THREE.AmbientLight( 0xf4f5dc ); // soft white light
+            amblight.castShadow = true
+            // const geometry = new THREE.BoxGeometry();
+            // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            // const cube = new THREE.Mesh( geometry, material );
+            const color = new THREE.Color( 0xfff000 );
+            // const controls = new DragControls( objects, camera, renderer.domElement );
+
+            loader.parse( gltfText.target.result, '', function( gltf ) {
+                console.log(gltf)
+                scene.castShadow = true
+                scene.background = color
+                scene.add( light );
+                scene.add( amblight );
+                scene.add( gltf.scene );
+                // scene.add( cube );
+                // const geometry = new THREE.BoxGeometry();
+                // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+                // const cube = new THREE.Mesh( geometry, material );
+                // scene.add( cube );
+                // camera.position.z = 5;
+                const controls = new OrbitControls( camera, renderer.domElement );
+
+//controls.update() must be called after any manual changes to the camera's transform
+                camera.position.set( 0, 20, 50 );
+                controls.update();
+
+                const animate = function () {
+                    requestAnimationFrame( animate );
+
+                    // cube.rotation.x += 0.01;
+                    // cube.rotation.y += 0.01;
+                    controls.update();
+
+                    renderer.render( scene, camera );
+                };
+                // renderer.render( scene, camera );
+
+                mountthree.current.appendChild( renderer.domElement );
+                animate();
+
+
+            }, function( errormsg ){
+                console.error( errormsg );
+            });
+
+        }
+        reader.readAsText( file );
 
     }
     return (
@@ -133,6 +205,9 @@ const AddTask = (props) => {
             </FormControl>
 
             {includePosition ? <LMap position={position} handleChangeMarkerPos={(pos) => setPosition(pos)}/> : ''}
+            Load gltf file
+            <input ref={fileInput} type={'file'} onChange={handleLoadGltf}/>
+            <div ref={mountthree}>test</div>
 
             <Container className={classes.addButtonContainer}>
                 <ButtonGroup fullWidth>
@@ -148,7 +223,6 @@ const AddTask = (props) => {
                     </Button>
                 </ButtonGroup>
             </Container>
-
 
         </form>
     );
