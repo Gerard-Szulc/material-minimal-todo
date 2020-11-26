@@ -17,6 +17,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import * as THREE from "three";
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+import {FBXLoader} from "three/examples/jsm/loaders/FBXLoader.js";
 
 const useStyles = makeStyles((theme) => ({
     root: {},
@@ -47,7 +48,7 @@ const getLocation = (setPosition) => {
 let timeoutId
 const AddTask = (props) => {
     const [text, setText] = useState('')
-    const [loadedFile, setLoadedFile] = useState(null)
+    // const [loadedFile, setLoadedFile] = useState(null)
     const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [color, setColor] = useState('#ffffff')
     const [includePosition, setIncludePosition] = useState(false)
@@ -100,13 +101,23 @@ const AddTask = (props) => {
         // fileInput.current.value = null
         let file = e.target.files[ 0 ];
         let reader = new FileReader();
+        let extArr = file.name.split('.')
+        let ext = extArr[extArr.length - 1]
 
+        const loaders = (loadedFile) => {
+            console.log(loadedFile)
+            console.log(ext)
+            const formats = {
+                gltf: () => new GLTFLoader(),
+                fbx: () => new FBXLoader()
+            }
+            return formats[ext]()
+        }
         // This is code that runs after reader.readAsText() finishes
-        reader.onload = function ( gltfText ) {
+        reader.onload = ( fileToRender ) => {
 
-            var loader = new GLTFLoader();
             var renderer = new THREE.WebGLRenderer();
-
+            let loader = loaders(file)
             var scene = new THREE.Scene();
             var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 2000 );
             const light = new THREE.Light( 0xf4f5dc ); // soft white light
@@ -118,47 +129,79 @@ const AddTask = (props) => {
             // const cube = new THREE.Mesh( geometry, material );
             const color = new THREE.Color( 0xfff000 );
             // const controls = new DragControls( objects, camera, renderer.domElement );
-
-            loader.parse( gltfText.target.result, '', function( gltf ) {
-                console.log(gltf)
-                scene.castShadow = true
-                scene.background = color
-                scene.add( light );
-                scene.add( amblight );
-                scene.add( gltf.scene );
-                // scene.add( cube );
-                // const geometry = new THREE.BoxGeometry();
-                // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-                // const cube = new THREE.Mesh( geometry, material );
-                // scene.add( cube );
-                // camera.position.z = 5;
-                const controls = new OrbitControls( camera, renderer.domElement );
+            switch (ext) {
+                case 'gltf':
+                    loader.parse( fileToRender.target.result, '', function( gltf ) {
+                        console.log(gltf)
+                        scene.castShadow = true
+                        scene.background = color
+                        scene.add( light );
+                        scene.add( amblight );
+                        scene.add( gltf.scene );
+                        // scene.add( cube );
+                        // const geometry = new THREE.BoxGeometry();
+                        // const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+                        // const cube = new THREE.Mesh( geometry, material );
+                        // scene.add( cube );
+                        // camera.position.z = 5;
+                        const controls = new OrbitControls( camera, renderer.domElement );
 
 //controls.update() must be called after any manual changes to the camera's transform
-                camera.position.set( 0, 20, 50 );
-                controls.update();
+                        camera.position.set( 0, 20, 50 );
+                        controls.update();
 
-                const animate = function () {
-                    requestAnimationFrame( animate );
+                        const animate = function () {
+                            requestAnimationFrame( animate );
 
-                    // cube.rotation.x += 0.01;
-                    // cube.rotation.y += 0.01;
+                            // cube.rotation.x += 0.01;
+                            // cube.rotation.y += 0.01;
+                            controls.update();
+
+                            renderer.render( scene, camera );
+                        };
+                        // renderer.render( scene, camera );
+
+                        mountthree.current.appendChild( renderer.domElement );
+                        animate();
+
+
+                    }, function( errormsg ){
+                        console.error( errormsg );
+                    });
+                    break
+                case 'fbx':
+                    loader = new FBXLoader()
+                    console.log(fileToRender)
+                    let fbxFile = loader.parse( fileToRender.target.result, '')
+                    fbxFile.castShadow = true
+                    fbxFile.background = color
+                    fbxFile.add( light );
+                    fbxFile.add( amblight );
+                    // fbxFile.add( fbxFile.scene );
+                    const controls = new OrbitControls( camera, renderer.domElement );
+                    camera.position.set( 0, 20, 50 );
                     controls.update();
 
-                    renderer.render( scene, camera );
-                };
-                // renderer.render( scene, camera );
+                    const animate = function () {
+                        requestAnimationFrame( animate );
 
-                mountthree.current.appendChild( renderer.domElement );
-                animate();
+                        // cube.rotation.x += 0.01;
+                        // cube.rotation.y += 0.01;
+                        controls.update();
 
+                        renderer.render( fbxFile, camera );
+                    };
+                    // renderer.render( scene, camera );
 
-            }, function( errormsg ){
-                console.error( errormsg );
-            });
+                    mountthree.current.appendChild( renderer.domElement );
+                    animate();
+                    break
+                default:
+                    break
+            }
 
         }
-        reader.readAsText( file );
+        reader.readAsArrayBuffer( file );
 
     }
     return (
