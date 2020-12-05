@@ -11,14 +11,9 @@ import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
 
-const useStyles = makeStyles({
-    root: {},
-});
 let timeoutId
 const TodoItem = (props) => {
     const dispatch = useDispatch()
-
-    const classes = useStyles();
 
     const [text, setText] = useState('')
     const [color, setColor] = useState('')
@@ -63,7 +58,7 @@ const TodoItem = (props) => {
     }
     return (
         <Paper elevation={5}>
-            <Card className={classes.root}
+            <Card
                   style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
                 <CardContent>
                     {editVisible ? <FormControl error={textValidationVisible}>

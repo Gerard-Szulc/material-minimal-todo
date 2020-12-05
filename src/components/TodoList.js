@@ -1,38 +1,60 @@
 import TodoItem from "./TodoItem.js";
-import {Container, Grid} from "@material-ui/core";
+import {Container, Grid, Paper, Typography, Zoom} from "@material-ui/core";
 import {useSelector} from "react-redux";
-import {createSelector} from "reselect";
 import Skeleton from '@material-ui/lab/Skeleton';
+import {selectFetchStatus, selectNotDoneTodos} from "../store/selectors";
+import Masonry from "react-masonry-component";
+import {styles} from "../theme/customStyles/styles.js";
+import SkeletonArray from "./SkeletonArray.js";
+import {FETCH_PENDING} from "../utils/fetchTypes.js";
 
-
-const selectNotDoneTodos = (filter) => createSelector(
-    state => state.todos.todos,
-    todos => todos.filter(todo => filter(todo))
-)
+var masonryOptions = {
+    transitionDuration: 200
+};
+const useStyles = styles
 
 function TodoList(props) {
+    const classes = useStyles();
+
     const todos = useSelector(selectNotDoneTodos(props.todosCompletionFilter))
-
+    const fetchStatus = useSelector(selectFetchStatus())
     return (
-        <div style={{maxWidth: "100vw"}}>
+        <div>
             <Container>
-                <Grid container spacing={3}>
-                    {todos.length !== 0 ? todos.map(todo => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={`todo-item-${todo.id}`}>
-                            <TodoItem todoItem={todo} xs={3}/>
+                {fetchStatus !== FETCH_PENDING ? (
+                        <Grid container spacing={3}>
+                            {
+                                Array.isArray(todos) && todos.length !== 0 ? (
+                                        <Masonry
+                                            className={classes.todoListContainer}
+                                            elementType={'div'}
+                                            options={masonryOptions}
+                                        >
+                                            {todos.map(todo => (
+
+                                                <Grid xs={12} className={classes.todoListElement} item
+                                                      key={`todo-item-${todo.id}`}>
+                                                    <TodoItem todoItem={todo} xs={3}/>
+                                                </Grid>
+
+                                            ))
+                                            }
+                                        </Masonry>) :
+                                    <Grid item xs={12}>
+                                        <Paper elevation={1}>
+                                            <Typography variant="h4" className={classes.todoEmptyList}>Your task list is
+                                                empty.</Typography>
+                                        </Paper>
+                                    </Grid>
+                            }
                         </Grid>
-                    )) :
-                        [1,2,3,4].map(el => <Grid item xs={12} sm={6} md={4} lg={3} key={`todo-skeleton-item-${el}`}>
-                            <Skeleton animation={false} variant="text" xs={12} sm={6} md={4} lg={3}/>
-                            <Skeleton animation={false} variant="rect" height={118} xs={12} sm={6} md={4} lg={3}/>
-                        </Grid>)
+                    ) :
+                    <SkeletonArray/>
+                }
 
-                    }
-                </Grid>
             </Container>
-
         </div>
-
     )
 }
+
 export default TodoList

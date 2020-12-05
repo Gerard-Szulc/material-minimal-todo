@@ -1,7 +1,7 @@
 import LMarker from './LMarker.js'
 import {TileLayer, MapContainer} from "react-leaflet";
 import {Container} from "@material-ui/core";
-// import leaflet from 'leaflet'
+
 export const ViewOnlyMap = (props) => {
     return (
         <Container>

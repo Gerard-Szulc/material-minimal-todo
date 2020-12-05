@@ -8,30 +8,11 @@ import {Add, Remove} from '@material-ui/icons';
 
 import AddTask from "./AddTask.js";
 import {useState} from "react";
-import {makeStyles} from "@material-ui/core/styles";
-
-const drawerWidth = 240;
+import {styles} from "../theme/customStyles/styles.js";
 
 
-const useStyles = makeStyles((theme) => ({
-    accordion: {
 
-        // minWidth: '270px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: "relative",
-        bottom: '2em',
-    },
-    bottomPanel: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-        },
-        zIndex: 1001
-
-    }
-}));
+const useStyles = styles
 
 
 const BottomPanel = (props) => {

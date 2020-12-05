@@ -1,15 +1,9 @@
 import {useMapEvent} from "react-leaflet";
 import {Container, IconButton} from "@material-ui/core";
 import LocationSearchingIcon from '@material-ui/icons/LocationSearching';
-import {makeStyles} from "@material-ui/core/styles";
+import {styles} from "../theme/customStyles/styles.js";
 
-const useStyles = makeStyles({
-    locateButton: {
-        zIndex: 9999,
-        position: "relative",
-        left: '90%'
-    },
-});
+const useStyles = styles
 export default function LocateMyPosition({handleChangeMarkerPos}) {
     const classes = useStyles();
 

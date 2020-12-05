@@ -22,7 +22,7 @@ const setLocalStorageData = (todos) => {
 function* fetchTodos() {
     try {
         const data = yield call(getLocalStorageData);
-        yield put({type: "TODO_FETCH_SUCCEEDED", data});
+        yield put({type: "SET_TODO_FETCH_SUCCEEDED", data});
         yield put({type: "SET_TODOS", todos: data});
     } catch (e) {
         yield put({type: "TODO_FETCH_FAILED", message: e.message});
@@ -32,7 +32,7 @@ function* saveTodos() {
     try {
         const todos = yield select(state => state.todos.todos)
         const data = yield call(setLocalStorageData, todos);
-        yield put({type: "TODO_SAVE_SUCCEEDED", data});
+        yield put({type: "SET_TODO_SAVE_SUCCEEDED", data});
     } catch (e) {
         yield console.error("Saving crashed", e)
     }
@@ -46,7 +46,7 @@ function* saveTodos() {
   and only the latest one will be run.
 */
 function* mySaga() {
-    yield takeLatest("TODO_FETCH_REQUESTED", fetchTodos);
+    yield takeLatest("SET_TODO_FETCH_REQUESTED", fetchTodos);
     yield takeLatest(SAVE_TODOS, saveTodos);
 }
 

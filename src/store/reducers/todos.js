@@ -2,14 +2,10 @@ import {
     ADD_TODO,
     SET_COLOR,
     TOGGLE_TODO,
-    SET_TEXT,
-    TODO_FETCH_SUCCEEDED,
-    TODO_FETCH_FAILED, SET_TODOS
+    SET_TEXT, SET_TODOS, SET_TODO_FETCH_REQUESTED, SET_TODO_FETCH_FAILED, SET_TODO_FETCH_SUCCEEDED
 } from "../actions/actionTypes.js";
+import {FETCH_PENDING, FETCH_ERROR, FETCH_COMPLETED} from "../../utils/fetchTypes.js";
 
-const FETCH_COMPLETED = "FETCH_COMPLETED"
-const FETCH_PENDING = "FETCH_PENDING"
-const FETCH_ERROR = "FETCH_ERROR"
 
 const initialState = {
     todos: [],
@@ -91,16 +87,22 @@ const todosReducer = (state = initialState, action) => {
                 })
             }
         }
-        case TODO_FETCH_SUCCEEDED: {
+        case SET_TODO_FETCH_SUCCEEDED: {
             return {
                 ...state,
                 fetchStatus: FETCH_COMPLETED
             }
         }
-        case TODO_FETCH_FAILED: {
+        case SET_TODO_FETCH_FAILED: {
             return {
                 ...state,
                 fetchStatus: FETCH_ERROR
+            }
+        }
+        case SET_TODO_FETCH_REQUESTED: {
+            return {
+                ...state,
+                fetchStatus: FETCH_PENDING
             }
         }
         default:

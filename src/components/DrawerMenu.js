@@ -1,26 +1,18 @@
 import Drawer from '@material-ui/core/Drawer';
-import {Divider, List, makeStyles, useTheme, ListItem, ListItemIcon, ListItemText, Hidden} from "@material-ui/core";
+import {Divider, List, useTheme, ListItem, ListItemIcon, ListItemText, Hidden} from "@material-ui/core";
 import MailIcon from '@material-ui/icons/Mail'
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import {toggleMenu} from "../store/actions/actions.js";
 import {useDispatch, useSelector} from "react-redux";
-import {createSelector} from "reselect";
 import {routes} from "../router/routes.js";
 import {useHistory} from "react-router-dom";
+import {styles} from "../theme/customStyles/styles.js";
+import {mobileOpenSelect} from "../store/selectors";
 
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-}));
+const useStyles = styles
 
-const mobileOpenSelect = () => createSelector(
-    state => state.menu.mobileOpened,
-    mobileOpened => mobileOpened
-)
+
 
 export const DrawerMenu = (props) => {
 
@@ -74,7 +66,7 @@ export const DrawerMenu = (props) => {
                         paper: props.drawerPaper,
                     }}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true
                     }}
                 >
                     {drawer}
