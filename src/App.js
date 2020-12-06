@@ -1,17 +1,23 @@
 import './App.css';
-import AppBar from '@material-ui/core/AppBar';
-import {ThemeProvider } from "@material-ui/core/styles";
+import React, {useState} from "react";
 import BottomPanel from "./components/BottomPanel.js";
 import {DrawerMenu} from "./components/DrawerMenu.js";
-import {Container, IconButton, Toolbar, Typography} from "@material-ui/core";
-import {useDispatch} from "react-redux";
-import {toggleMenu} from "./store/actions/actions.js";
+
+import {ThemeProvider} from "@material-ui/core/styles";
+import {Button, Container, IconButton, Snackbar, Toolbar, Typography, AppBar} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {routes} from "./router/routes.js";
-import {SET_TODO_FETCH_REQUESTED} from "./store/actions/actionTypes.js";
+import CloseIcon from '@material-ui/icons/Close';
 import {themeObject} from "./theme/theme.js";
 import {styles} from "./theme/customStyles/styles.js";
+
+import {useDispatch, useSelector} from "react-redux";
+import {toggleMenu} from "./store/actions/actions.js";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {SET_TODO_FETCH_REQUESTED} from "./store/actions/actionTypes.js";
+
+import {isServiceWorkerUpdated, serviceWorkerRegistration} from "./store/selectors";
+
+import {routes} from "./router/routes.js";
 
 
 const useStyles = styles
@@ -47,13 +53,35 @@ function report(state) {
 handlePermission();
 
 function App() {
+
     const dispatch = useDispatch()
+    const [open, setOpen] = useState(true)
+    const serviceWorkerRegistrationSelector = useSelector(serviceWorkerRegistration());
+    const isServiceWorkerUpdatedSel = useSelector(isServiceWorkerUpdated());
 
     const classes = useStyles();
     dispatch({type: SET_TODO_FETCH_REQUESTED})
 
     const handleDrawerToggle = () => {
         dispatch(toggleMenu())
+    }
+
+    const handleUpdateSW = () => {
+        const registrationWaiting = serviceWorkerRegistrationSelector.waiting;
+        if (registrationWaiting) {
+            registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+            registrationWaiting.addEventListener('statechange', e => {
+                if (e.target.state === 'activated') {
+                    window.location.reload();
+                }
+            });
+        }
+    }
+    const handleCloseUpdateSnackBar = (event, reason) => {
+            if (reason === 'clickaway') {
+                return
+            }
+        setOpen(false)
     }
     return (
         <ThemeProvider theme={themeObject}>
@@ -88,6 +116,25 @@ function App() {
                         </Switch>
                     </main>
                     <BottomPanel/>
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        open={isServiceWorkerUpdatedSel && open}
+                        onClose={handleCloseUpdateSnackBar}
+                        message="App ready to update"
+                        action={
+                            <React.Fragment>
+                                <Button color="secondary" size="small" onClick={handleUpdateSW}>
+                                    UPDATE
+                                </Button>
+                                <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseUpdateSnackBar}>
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                            </React.Fragment>
+                        }
+                    />
                 </div>
             </BrowserRouter>
         </ThemeProvider>

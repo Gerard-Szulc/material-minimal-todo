@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
-import Card from '@material-ui/core/Card';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, InputLabel} from "@material-ui/core";
+import {Button, FormControl, FormHelperText, Input, InputLabel, Card, Paper, Checkbox, CardActions, CardContent, Typography} from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
 
 let timeoutId
