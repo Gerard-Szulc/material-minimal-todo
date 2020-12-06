@@ -17,26 +17,27 @@ import {styles} from "./theme/customStyles/styles.js";
 const useStyles = styles
 
 function handlePermission() {
-    navigator.permissions.query({name: 'geolocation'}).then(function (result) {
-        if (result.state === 'granted') {
-            report(result.state);
-            // geoBtn.style.display = 'none';
-        } else if (result.state === 'prompt') {
-            report(result.state);
-            // geoBtn.style.display = 'none';
-            navigator.geolocation.getCurrentPosition((loc) => console.log('perm allowed', loc));
-        } else if (result.state === 'denied') {
-            report(result.state);
-            // geoBtn.style.display = 'inline';
-        }
-        result.onchange = function () {
-            report(result.state);
-        }
+    if (navigator.hasOwnProperty('permissions')) {
+        navigator.permissions.query({name: 'geolocation'}).then(function (result) {
+            if (result.state === 'granted') {
+                report(result.state);
+                // geoBtn.style.display = 'none';
+            } else if (result.state === 'prompt') {
+                report(result.state);
+                // geoBtn.style.display = 'none';
+                navigator.geolocation.getCurrentPosition((loc) => console.log('perm allowed', loc));
+            } else if (result.state === 'denied') {
+                report(result.state);
+                // geoBtn.style.display = 'inline';
+            }
+            result.onchange = function () {
+                report(result.state);
+            }
 
-    });
-    navigator.permissions.query({name: 'push', userVisibleOnly: true}).then(function (result) { /* ... */
-    });
-
+        });
+        navigator.permissions.query({name: 'push', userVisibleOnly: true}).then(function (result) { /* ... */
+        });
+    }
 }
 
 function report(state) {
