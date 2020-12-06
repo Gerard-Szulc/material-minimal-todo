@@ -1,7 +1,6 @@
 import TodoItem from "./TodoItem.js";
-import {Container, Grid, Paper, Typography, Zoom} from "@material-ui/core";
+import {Container, Grid, Paper, Typography} from "@material-ui/core";
 import {useSelector} from "react-redux";
-import Skeleton from '@material-ui/lab/Skeleton';
 import {selectFetchStatus, selectNotDoneTodos} from "../store/selectors";
 import Masonry from "react-masonry-component";
 import {styles} from "../theme/customStyles/styles.js";
