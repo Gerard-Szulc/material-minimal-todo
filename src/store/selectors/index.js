@@ -20,4 +20,26 @@ const selectFetchStatus = () => createSelector(
     fectchStatus => fectchStatus
 )
 
-export {selectNotDoneTodos, mobileOpenSelect, selectAllTodos, selectFetchStatus}
+const isServiceWorkerInitialized = () => createSelector(
+    state => state.serviceWorkerReducer,
+    serviceWorkerReducer => serviceWorkerReducer.serviceWorkerInitialized
+);
+const isServiceWorkerUpdated = () => createSelector(
+    state => state.serviceWorkerReducer,
+    serviceWorkerReducer => serviceWorkerReducer.serviceWorkerUpdated
+);
+const serviceWorkerRegistration = () => createSelector(
+    state => state.serviceWorkerReducer,
+    serviceWorkerReducer => serviceWorkerReducer.serviceWorkerRegistration
+);
+
+
+export {
+    selectNotDoneTodos,
+    mobileOpenSelect,
+    selectAllTodos,
+    selectFetchStatus,
+    isServiceWorkerInitialized,
+    isServiceWorkerUpdated,
+    serviceWorkerRegistration
+}

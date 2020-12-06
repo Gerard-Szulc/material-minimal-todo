@@ -1,11 +1,17 @@
 import { call, put, takeLatest, select  } from 'redux-saga/effects'
-import {SAVE_TODOS} from "../store/actions/actionTypes.js";
+import {
+    SAVE_TODOS,
+    SET_TODO_FETCH_FAILED,
+    SET_TODO_FETCH_REQUESTED,
+    SET_TODO_FETCH_SUCCEEDED,
+    SET_TODOS
+} from "../store/actions/actionTypes.js";
 
 const getLocalStorageData = () => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             const data = window.localStorage.getItem('todos')
-            data ? resolve(JSON.parse(data)) : reject({message: 'No todos saved in storage'})
+            data ? resolve(JSON.parse(data)) : reject([])
         },2000)
     })
 }
@@ -22,10 +28,10 @@ const setLocalStorageData = (todos) => {
 function* fetchTodos() {
     try {
         const data = yield call(getLocalStorageData);
-        yield put({type: "SET_TODO_FETCH_SUCCEEDED", data});
-        yield put({type: "SET_TODOS", todos: data});
+        yield put({type: SET_TODO_FETCH_SUCCEEDED, data});
+        yield put({type: SET_TODOS, todos: data});
     } catch (e) {
-        yield put({type: "TODO_FETCH_FAILED", message: e.message});
+        yield put({type: SET_TODO_FETCH_FAILED, message: e.message});
     }
 }
 function* saveTodos() {
@@ -46,7 +52,7 @@ function* saveTodos() {
   and only the latest one will be run.
 */
 function* mySaga() {
-    yield takeLatest("SET_TODO_FETCH_REQUESTED", fetchTodos);
+    yield takeLatest(SET_TODO_FETCH_REQUESTED, fetchTodos);
     yield takeLatest(SAVE_TODOS, saveTodos);
 }
 

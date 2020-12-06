@@ -11,3 +11,7 @@ export const SAVE_TODOS = "SAVE_TODOS";
 export const SET_FILTER = "SET_FILTER";
 
 export const TOGGLE_MENU = "TOGGLE_MENU";
+
+//service worker types
+export const SW_INIT = 'SW_INIT'
+export const SW_UPDATE = 'SW_UPDATE'
