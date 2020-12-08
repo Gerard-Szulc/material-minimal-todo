@@ -115,7 +115,7 @@ const TodoItem = (props) => {
                 </CardContent>
                 <CardActions>
                     <Fab
-                        color={"primary"}
+                        color={"default"}
                         size={"medium"}
                     >
                         <Checkbox
