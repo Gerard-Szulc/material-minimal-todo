@@ -3,6 +3,17 @@ footer {
     bottom: 0px;
     width: 100vw;
 }
+#appBar.main-app-bar {
+    display: flex;
+    flex-direction: row;
+}
+@media (min-width: 600px) {
+    #appBar.main-app-bar {
+        width: calc(100% - 240px);
+        margin-left: 240px;
+    }
+}
+
 
 /*.custom-grid-class {*/
 /*    width: 100%;*/

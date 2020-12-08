@@ -16,9 +16,9 @@ export const LMap = (props) => {
                         />
                         {
                             [props.position].map(
-                                (marker, index) =>
+                                (marker) =>
                                     <LMarker
-                                        key={`${index}-${marker.lat}-${marker.lng}`}
+                                        key={`${marker.lat}-${marker.lng}`}
                                         markerPos={marker}
                                         handleSetPosition={props.handleChangeMarkerPos}
                                     />)

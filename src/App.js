@@ -102,7 +102,7 @@ function App() {
             <BrowserRouter>
                 <div className="App">
                     <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
-                    <AppBar position="fixed" className={classes.appBar}>
+                    <AppBar id={'appBar'} position="fixed" className={'main-app-bar'}>
                         <Toolbar className={classes.specialSuperToolbar}>
                             <IconButton
                                 color="inherit"
@@ -125,9 +125,9 @@ function App() {
                     </AppBar>
                     <main className={classes.appContent}>
                         <Switch>
-                            {routes(t).map((route, index) => (
+                            {routes(t).map((route) => (
                                 <Route
-                                    key={index}
+                                    key={`route-${route.name}`}
                                     path={route.path}
                                     exact={route.exact}
                                     children={<route.main/>}

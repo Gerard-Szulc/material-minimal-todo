@@ -17,7 +17,7 @@ export const ViewOnlyMap = (props) => {
                                 (marker, index) =>
                                     <LMarker
                                         editable={false}
-                                        key={`${index}-${marker.lat}-${marker.lng}`}
+                                        key={`view-only-marker-${marker.lat}-${marker.lng}`}
                                         markerPos={marker}
                                     />)
                         }
