@@ -1,7 +1,20 @@
 import React, {useState} from 'react';
 import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
-import {Button, FormControl, FormHelperText, Input, InputLabel, Card, Paper, Checkbox, CardActions, CardContent, Typography} from "@material-ui/core";
+import {
+    Button,
+    FormControl,
+    FormHelperText,
+    Input,
+    InputLabel,
+    Card,
+    Paper,
+    Checkbox,
+    CardActions,
+    CardContent,
+    Typography,
+    Box, Fab
+} from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
 import { useTranslation } from 'react-i18next';
 
@@ -101,11 +114,17 @@ const TodoItem = (props) => {
                     }
                 </CardContent>
                 <CardActions>
-                    <Checkbox
-                        checked={props.todoItem.completed}
-                        onChange={() => handleToggleTodo()}
-                        inputProps={{'aria-label': 'primary checkbox'}}
-                    />
+                    <Fab
+                        color={"primary"}
+                        size={"medium"}
+                    >
+                        <Checkbox
+                            checked={props.todoItem.completed}
+                            onChange={() => handleToggleTodo()}
+                            color={"success"}
+                        />
+                    </Fab>
+
                 </CardActions>
             </Card>
         </Paper>
