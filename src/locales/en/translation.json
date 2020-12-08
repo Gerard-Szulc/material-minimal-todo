@@ -11,5 +11,7 @@
   "mapMarkerDraggable": "Marker is draggable",
   "mapMarkerClickToDrag": "Click here to make marker draggable",
   "editTaskSave": "Save",
-  "addTaskIncludePosition": "Include location"
+  "addTaskIncludePosition": "Include location",
+  "withoutColor": "Without colour"
+
 }

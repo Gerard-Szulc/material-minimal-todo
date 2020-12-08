@@ -50,10 +50,28 @@ const TodoItem = (props) => {
         dispatch(toggleTodo(props.todoItem.id))
         dispatch(saveTodos())
     }
+
+    const calculateColorBrightness = (itemColor) => {
+        function hexToRgb(hex) {
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+        const rgb = hexToRgb(itemColor)
+        return rgb !== null ? (Object.values(rgb).reduce((prev, next) => prev + next) > (220 * 3)) : false
+    }
+
+    let isBright = React.useMemo(
+        () => calculateColorBrightness(props.todoItem.color),
+        [props.todoItem.color]
+    )
     return (
         <Paper elevation={5}>
             <Card
-                  style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
+                  style={{backgroundColor: props.todoItem.color ? props.todoItem.color : 'default'}}>
                 <CardContent>
                     {editVisible ? <FormControl error={textValidationVisible}>
                             <InputLabel htmlFor="add-task-text">{t("addTaskText")}</InputLabel>
@@ -74,7 +92,7 @@ const TodoItem = (props) => {
                         <Button size="small" onClick={handleSaveChanges}>{t('editTaskSave')}</Button>
                         </FormControl> :
                         <Typography title={"Double click to edit"} onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{
-                            wordBreak: "break-word", whiteSpace: "pre-wrap"
+                            wordBreak: "break-word", whiteSpace: "pre-wrap", color: (isBright ? 'black' : '')
                         }}>
                             {props.todoItem.text}
                             <br/>

@@ -26,7 +26,7 @@ let timeoutId
 const AddTask = (props) => {
     const [text, setText] = useState('')
     const [textValidationVisible, setTextValidationVisible] = useState(false)
-    const [color, setColor] = useState('#ffffff')
+    const [color, setColor] = useState('')
     const [includePosition, setIncludePosition] = useState(false)
     const [position, setPosition] = useState(null)
     const dispatch = useDispatch()
@@ -54,7 +54,7 @@ const AddTask = (props) => {
         dispatch(addTodo({text, color, position}))
         dispatch(saveTodos())
         setText('')
-        setColor('#ffffff')
+        setColor('')
         closeBottom()
     }
 
@@ -88,12 +88,12 @@ const AddTask = (props) => {
                     <FormHelperText id="add-task-error-text">{t('addTaskTextRequired')}</FormHelperText> : ''}
 
             </FormControl>
-            <InputLabel htmlFor={"add-task-color"}>{t('addTaskColor')}</InputLabel>
+            <InputLabel htmlFor={"add-task-color"}>{t('addTaskColor')} {color ? '' : `(${t('withoutColor')})`}</InputLabel>
             <input
                 style={{width: "90%"}}
                 id={"add-task-color"}
                 type={"color"}
-                value={color}
+                value={color || '#ffffff'}
                 onChange={(event) => handleColorChange(event.target.value)}/>
             <FormControl
             >

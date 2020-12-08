@@ -3,9 +3,6 @@ import {makeStyles} from "@material-ui/core/styles";
 const DRAWER_WIDTH = 240;
 
 const styles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
     navHeader: {
         [theme.breakpoints.up('sm')]: {
             display: 'flex',

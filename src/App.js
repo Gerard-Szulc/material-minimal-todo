@@ -4,7 +4,18 @@ import BottomPanel from "./components/BottomPanel.js";
 import {DrawerMenu} from "./components/DrawerMenu.js";
 
 import {ThemeProvider} from "@material-ui/core/styles";
-import {Button, Container, IconButton, Snackbar, Toolbar, Typography, AppBar, Select, MenuItem} from "@material-ui/core";
+import {
+    Button,
+    Container,
+    IconButton,
+    Snackbar,
+    Toolbar,
+    Typography,
+    AppBar,
+    Select,
+    MenuItem,
+    useMediaQuery, Box, CssBaseline
+} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import {themeObject} from "./theme/theme.js";
@@ -55,6 +66,14 @@ handlePermission();
 
 function App() {
 
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const theme = React.useMemo(
+        () =>
+            themeObject({prefersDarkMode}),
+        [prefersDarkMode],
+    );
+
     const {t, i18n} = useTranslation();
     const dispatch = useDispatch()
     const [open, setOpen] = useState(true)
@@ -90,7 +109,7 @@ function App() {
         console.log(e)
         e.preventDefault()
         try {
-            await i18n.changeLanguage(e.target.value, async () => await i18n.reloadResources())
+            await i18n.changeLanguage(e.target.value)
 
         } catch (e) {
             console.error(e)
@@ -98,9 +117,10 @@ function App() {
     }
 
     return (
-        <ThemeProvider theme={themeObject}>
+        <ThemeProvider theme={theme}>
             <BrowserRouter>
-                <div className="App">
+                <CssBaseline />
+                <div className={classes.root}>
                     <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
                     <AppBar id={'appBar'} position="fixed" className={'main-app-bar'}>
                         <Toolbar className={classes.specialSuperToolbar}>

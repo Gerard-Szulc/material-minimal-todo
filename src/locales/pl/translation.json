@@ -11,5 +11,6 @@
   "mapMarkerDraggable": "Znacznik jest przeciągalny",
   "mapMarkerClickToDrag": "Kliknij tutaj, aby umożliwić przeciąganie znacznika",
   "editTaskSave": "Zapisz",
-  "addTaskIncludePosition": "Dołącz lokalizację"
+  "addTaskIncludePosition": "Dołącz lokalizację",
+  "withoutColor": "Bez koloru"
 }
