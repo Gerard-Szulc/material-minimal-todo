@@ -29,7 +29,7 @@ const styles = makeStyles((theme) => ({
             marginLeft: DRAWER_WIDTH,
         },
     },
-    appBarToolbar: {
+    specialSuperToolbar: {
         display: 'flex',
         flexDirection: "row",
         justifyContent: "space-between",

@@ -103,7 +103,7 @@ function App() {
                 <div className="App">
                     <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
                     <AppBar position="fixed" className={classes.appBar}>
-                        <Toolbar className={classes.appBarToolbar}>
+                        <Toolbar className={classes.specialSuperToolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
