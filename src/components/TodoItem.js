@@ -13,7 +13,7 @@ import {
     CardActions,
     CardContent,
     Typography,
-    Box, Fab
+    Fab
 } from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
 import { useTranslation } from 'react-i18next';
@@ -121,7 +121,7 @@ const TodoItem = (props) => {
                         <Checkbox
                             checked={props.todoItem.completed}
                             onChange={() => handleToggleTodo()}
-                            color={"success"}
+                            color={"default"}
                         />
                     </Fab>
 
