@@ -61,7 +61,7 @@ const TodoItem = (props) => {
             } : null;
         }
         const rgb = hexToRgb(itemColor)
-        return rgb !== null ? (Object.values(rgb).reduce((prev, next) => prev + next) > (220 * 3)) : false
+        return rgb !== null ? (Object.values(rgb).reduce((prev, next) => prev + next, 0) > (220 * 3) ? 'black' : 'white') : 'black'
     }
 
     let isBright = React.useMemo(
@@ -92,7 +92,7 @@ const TodoItem = (props) => {
                         <Button size="small" onClick={handleSaveChanges}>{t('editTaskSave')}</Button>
                         </FormControl> :
                         <Typography title={"Double click to edit"} onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{
-                            wordBreak: "break-word", whiteSpace: "pre-wrap", color: (isBright ? 'black' : 'white')
+                            wordBreak: "break-word", whiteSpace: "pre-wrap", color: isBright
                         }}>
                             {props.todoItem.text}
                             <br/>
