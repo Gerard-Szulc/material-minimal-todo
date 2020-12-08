@@ -92,7 +92,7 @@ const TodoItem = (props) => {
                         <Button size="small" onClick={handleSaveChanges}>{t('editTaskSave')}</Button>
                         </FormControl> :
                         <Typography title={"Double click to edit"} onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{
-                            wordBreak: "break-word", whiteSpace: "pre-wrap", color: (isBright ? 'black' : '')
+                            wordBreak: "break-word", whiteSpace: "pre-wrap", color: (isBright ? 'black' : 'white')
                         }}>
                             {props.todoItem.text}
                             <br/>
