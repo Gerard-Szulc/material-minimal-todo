@@ -1,7 +1,9 @@
 import {createSelector} from "reselect";
 
+const todosSelector = state => state.todos.todos
+
 const selectNotDoneTodos = (filter) => createSelector(
-    state => state.todos.todos,
+    todosSelector,
     todos => todos.filter(todo => filter(todo))
 )
 
@@ -11,7 +13,7 @@ const mobileOpenSelect = () => createSelector(
 )
 
 const selectAllTodos = () => createSelector(
-    state => state.todos.todos,
+    todosSelector,
     todos => todos
 )
 

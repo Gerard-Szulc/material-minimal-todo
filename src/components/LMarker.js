@@ -4,6 +4,7 @@ import L from 'leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import { useTranslation } from 'react-i18next';
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -39,6 +40,7 @@ export default function LMarker({editable = true, handleSetPosition, markerPos})
         setDraggable((d) => !d)
     }, [editable])
 
+    const { t } = useTranslation()
     return (
         <Marker
             draggable={draggable}
@@ -49,8 +51,8 @@ export default function LMarker({editable = true, handleSetPosition, markerPos})
             <Popup minWidth={90}>
         <span onClick={toggleDraggable}>
           {draggable
-              ? 'Marker is draggable'
-              : 'Click here to make marker draggable'}
+              ? t('mapMarkerDraggable')
+              : t('mapMarkerClickToDrag')}
         </span>
             </Popup>
         </Marker>

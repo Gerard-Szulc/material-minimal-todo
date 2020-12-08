@@ -4,7 +4,7 @@ import BottomPanel from "./components/BottomPanel.js";
 import {DrawerMenu} from "./components/DrawerMenu.js";
 
 import {ThemeProvider} from "@material-ui/core/styles";
-import {Button, Container, IconButton, Snackbar, Toolbar, Typography, AppBar} from "@material-ui/core";
+import {Button, Container, IconButton, Snackbar, Toolbar, Typography, AppBar, Select, MenuItem} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import {themeObject} from "./theme/theme.js";
@@ -18,6 +18,7 @@ import {SET_TODO_FETCH_REQUESTED} from "./store/actions/actionTypes.js";
 import {isServiceWorkerUpdated, serviceWorkerRegistration} from "./store/selectors";
 
 import {routes} from "./router/routes.js";
+import {useTranslation} from 'react-i18next';
 
 
 const useStyles = styles
@@ -54,6 +55,7 @@ handlePermission();
 
 function App() {
 
+    const {t, i18n} = useTranslation();
     const dispatch = useDispatch()
     const [open, setOpen] = useState(true)
     const serviceWorkerRegistrationSelector = useSelector(serviceWorkerRegistration());
@@ -69,7 +71,7 @@ function App() {
     const handleUpdateSW = () => {
         const registrationWaiting = serviceWorkerRegistrationSelector.waiting;
         if (registrationWaiting) {
-            registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+            registrationWaiting.postMessage({type: 'SKIP_WAITING'});
             registrationWaiting.addEventListener('statechange', e => {
                 if (e.target.state === 'activated') {
                     window.location.reload();
@@ -78,18 +80,30 @@ function App() {
         }
     }
     const handleCloseUpdateSnackBar = (event, reason) => {
-            if (reason === 'clickaway') {
-                return
-            }
+        if (reason === 'clickaway') {
+            return
+        }
         setOpen(false)
     }
+
+    const handleChangeLang = async (e) => {
+        console.log(e)
+        e.preventDefault()
+        try {
+            await i18n.changeLanguage(e.target.value, async () => await i18n.reloadResources())
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     return (
         <ThemeProvider theme={themeObject}>
             <BrowserRouter>
                 <div className="App">
                     <DrawerMenu drawerPaper={classes.drawerPaper} drawerClass={classes.drawer}/>
                     <AppBar position="fixed" className={classes.appBar}>
-                        <Toolbar>
+                        <Toolbar className={classes.appBarToolbar}>
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
@@ -101,11 +115,17 @@ function App() {
                             </IconButton>
                             <h3 className={classes.navHeader}>
                                 <Container><Typography>Minimal-Todo</Typography></Container></h3>
+                            {
+                                i18n && i18n.options && i18n.options.supportedLngs ? (<Select onChange={handleChangeLang} value={i18n.language}>
+                                   {i18n.options.supportedLngs.length !== 0 ? i18n.options.supportedLngs.filter(el => !el.includes('cimode')).map(value => <MenuItem key={`lang-${value}`} value={value}>{value}</MenuItem>) : ''}
+                               </Select>) : ''
+                            }
+
                         </Toolbar>
                     </AppBar>
                     <main className={classes.appContent}>
                         <Switch>
-                            {routes.map((route, index) => (
+                            {routes(t).map((route, index) => (
                                 <Route
                                     key={index}
                                     path={route.path}
@@ -123,14 +143,15 @@ function App() {
                         }}
                         open={isServiceWorkerUpdatedSel && open}
                         onClose={handleCloseUpdateSnackBar}
-                        message="App ready to update"
+                        message={t('pwaReadyToUpdate')}
                         action={
                             <React.Fragment>
                                 <Button color="secondary" size="small" onClick={handleUpdateSW}>
-                                    UPDATE
+                                    {t('pwaUpdateApp')}
                                 </Button>
-                                <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseUpdateSnackBar}>
-                                    <CloseIcon fontSize="small" />
+                                <IconButton size="small" aria-label="close" color="inherit"
+                                            onClick={handleCloseUpdateSnackBar}>
+                                    <CloseIcon fontSize="small"/>
                                 </IconButton>
                             </React.Fragment>
                         }

@@ -8,6 +8,7 @@ import {routes} from "../router/routes.js";
 import {useHistory} from "react-router-dom";
 import {styles} from "../theme/customStyles/styles.js";
 import {mobileOpenSelect} from "../store/selectors";
+import {useTranslation} from "react-i18next";
 
 
 const useStyles = styles
@@ -17,7 +18,7 @@ const useStyles = styles
 export const DrawerMenu = (props) => {
 
     const dispatch = useDispatch()
-
+    const {t} = useTranslation()
     const {window} = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -39,7 +40,7 @@ export const DrawerMenu = (props) => {
             <div className={classes.toolbar}/>
             <Divider/>
             <List>
-                {routes.map((route, index) => (
+                {routes(t).map((route, index) => (
                     <ListItem button  key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                         <ListItemText primary={route.sidebar()}/>

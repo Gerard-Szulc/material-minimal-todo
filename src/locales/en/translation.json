@@ -1,0 +1,15 @@
+{
+  "listPlaceholder": "Your task list is empty.",
+  "pwaReadyToUpdate": "Application ready for update",
+  "pwaUpdateApp": "Update",
+  "routeTaskName": "Tasks",
+  "routeCompletedName": "Completed",
+  "addTaskText": "Text",
+  "addTaskColor": "Colour",
+  "addTaskTextRequired": "Some text is required",
+  "addTaskAdd": "Add",
+  "mapMarkerDraggable": "Marker is draggable",
+  "mapMarkerClickToDrag": "Click here to make marker draggable",
+  "editTaskSave": "Save",
+  "addTaskIncludePosition": "Include location"
+}

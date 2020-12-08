@@ -6,6 +6,7 @@ import Masonry from "react-masonry-component";
 import {styles} from "../theme/customStyles/styles.js";
 import SkeletonArray from "./SkeletonArray.js";
 import {FETCH_PENDING} from "../utils/fetchTypes.js";
+import {useTranslation} from "react-i18next";
 
 var masonryOptions = {
     transitionDuration: 200
@@ -17,6 +18,8 @@ function TodoList(props) {
 
     const todos = useSelector(selectNotDoneTodos(props.todosCompletionFilter))
     const fetchStatus = useSelector(selectFetchStatus())
+    const { t } = useTranslation();
+
     return (
         <div>
             <Container>
@@ -41,8 +44,7 @@ function TodoList(props) {
                                         </Masonry>) :
                                     <Grid item xs={12}>
                                         <Paper elevation={1}>
-                                            <Typography variant="h4" className={classes.todoEmptyList}>Your task list is
-                                                empty.</Typography>
+                                        <Typography variant="h4" className={classes.todoEmptyList}>{t('listPlaceholder')}</Typography>
                                         </Paper>
                                     </Grid>
                             }

@@ -1,0 +1,15 @@
+{
+  "listPlaceholder": "Twoja lista zadań jest pusta.",
+  "pwaReadyToUpdate": "Aplikacja gotowa do aktualizacji",
+  "pwaUpdateApp": "Zaktualizuj",
+  "routeTaskName": "Zadania",
+  "routeCompletedName": "Ukończone",
+  "addTaskText": "Tekst",
+  "addTaskColor": "Kolor",
+  "addTaskTextRequired": "Text jest wymagany",
+  "addTaskAdd": "Dodaj",
+  "mapMarkerDraggable": "Znacznik jest przeciągalny",
+  "mapMarkerClickToDrag": "Kliknij tutaj, aby umożliwić przeciąganie znacznika",
+  "editTaskSave": "Zapisz",
+  "addTaskIncludePosition": "Dołącz lokalizację"
+}

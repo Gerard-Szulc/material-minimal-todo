@@ -29,6 +29,12 @@ const styles = makeStyles((theme) => ({
             marginLeft: DRAWER_WIDTH,
         },
     },
+    appBarToolbar: {
+        display: 'flex',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: '100%'
+    },
     menuButton: {
         marginRight: theme.spacing(2),
         [theme.breakpoints.up('sm')]: {
@@ -86,7 +92,24 @@ const styles = makeStyles((theme) => ({
         [theme.breakpoints.down('xs')]: {
             fontSize: '20px',
         }
-    }
+    },
+    addTaskForm: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+    },
+    addButtonContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+    },
+    addButton: {
+        width:'100%'
+    },
+    textValidationError: {
+        color: "red",
+    },
 }));
 
 export {styles, DRAWER_WIDTH}

@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
 import {addTodo, saveTodos} from '../store/actions/actions.js'
 import {connect, useDispatch} from "react-redux";
 import {
@@ -14,29 +13,11 @@ import {
 } from "@material-ui/core";
 import {LMap} from "./LMap.js";
 import Checkbox from '@material-ui/core/Checkbox';
+import {useTranslation} from "react-i18next";
+import {styles} from "../theme/customStyles/styles.js";
 
-const useStyles = makeStyles((theme) => ({
-    root: {},
-    addTaskForm: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
-    },
-    addButtonContainer: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-    },
-    addButton: {
-      width:'100%'
-    },
-    textValidationError: {
-        color: "red",
-    },
-}))
+const useStyles = styles
 const getLocation = (setPosition) => {
-    console.log('test')
     navigator.geolocation.getCurrentPosition((location) => {
         setPosition({lat: location.coords.latitude, lng: location.coords.longitude})
     })
@@ -50,10 +31,7 @@ const AddTask = (props) => {
     const [position, setPosition] = useState(null)
     const dispatch = useDispatch()
     const classes = useStyles();
-    //
-    // useEffect(() => {
-    //     getLocation(setPosition)
-    // }, [])
+    const {t} = useTranslation()
 
 
     const handleColorChange = (changedColor) => {
@@ -97,7 +75,7 @@ const AddTask = (props) => {
                 handleAddTask(props.closeFooter)
             }}>
             <FormControl error={textValidationVisible} style={{width: "90%"}}>
-                <InputLabel htmlFor="add-task-text">Text</InputLabel>
+                <InputLabel htmlFor="add-task-text">{t('addTaskText')}</InputLabel>
                 <Input
                     id="add-task-text"
                     variant="outlined"
@@ -107,10 +85,10 @@ const AddTask = (props) => {
                     aria-describedby="add-task-error-text"
                 />
                 {textValidationVisible ?
-                    <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
+                    <FormHelperText id="add-task-error-text">{t('addTaskTextRequired')}</FormHelperText> : ''}
 
             </FormControl>
-            <InputLabel htmlFor={"add-task-color"}>Color</InputLabel>
+            <InputLabel htmlFor={"add-task-color"}>{t('addTaskColor')}</InputLabel>
             <input
                 style={{width: "90%"}}
                 id={"add-task-color"}
@@ -128,7 +106,7 @@ const AddTask = (props) => {
                             color="primary"
                         />
                     }
-                    label="Include location"
+                    label={t("addTaskIncludePosition")}
                 />
             </FormControl>
 
@@ -144,7 +122,7 @@ const AddTask = (props) => {
                         onClick={() => handleAddTask(props.closeFooter)}
 
                     >
-                        Add
+                        {t('addTaskAdd')}
                     </Button>
                 </ButtonGroup>
             </Container>

@@ -3,6 +3,7 @@ import {toggleTodo, changeColor, changeText, saveTodos} from '../store/actions/a
 import {connect, useDispatch} from "react-redux";
 import {Button, FormControl, FormHelperText, Input, InputLabel, Card, Paper, Checkbox, CardActions, CardContent, Typography} from "@material-ui/core";
 import {ViewOnlyMap} from "./ViewOnlyMap.js";
+import { useTranslation } from 'react-i18next';
 
 let timeoutId
 const TodoItem = (props) => {
@@ -13,7 +14,7 @@ const TodoItem = (props) => {
 
     const [textValidationVisible, setTextValidationVisible] = useState(false)
     const [editVisible, setEditVisible] = useState(false)
-
+    const {t} = useTranslation()
 
     const handleColorChange = (colorValue) => {
         clearTimeout(timeoutId)
@@ -55,7 +56,7 @@ const TodoItem = (props) => {
                   style={{backgroundColor: props.todoItem.color ? props.todoItem.color : '#ffffff'}}>
                 <CardContent>
                     {editVisible ? <FormControl error={textValidationVisible}>
-                            <InputLabel htmlFor="add-task-text">Text</InputLabel>
+                            <InputLabel htmlFor="add-task-text">{t("addTaskText")}</InputLabel>
                             <Input
                                 id="add-task-text"
                                 variant="outlined"
@@ -65,12 +66,12 @@ const TodoItem = (props) => {
                                 aria-describedby="add-task-error-text"
                             />
                             {textValidationVisible ?
-                                <FormHelperText id="add-task-error-text">Some text is required</FormHelperText> : ''}
+                            <FormHelperText id="add-task-error-text">{t("addTaskTextRequired")}</FormHelperText> : ''}
                             <input
                                 type={"color"}
                                 value={color}
                                 onChange={(event) => handleColorChange(event.target.value)}/>
-                            <Button size="small" onClick={handleSaveChanges}>Save</Button>
+                        <Button size="small" onClick={handleSaveChanges}>{t('editTaskSave')}</Button>
                         </FormControl> :
                         <Typography title={"Double click to edit"} onDoubleClick={handleEditVisible} variant="h5" component="h2" style={{
                             wordBreak: "break-word", whiteSpace: "pre-wrap"

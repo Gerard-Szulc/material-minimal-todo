@@ -1,15 +1,15 @@
 import TodoList from "../components/TodoList.js";
 
-export const routes = [
+export const routes = (t) => ([
     {
         path: "/",
         exact: true,
-        sidebar: () => <div>Tasks</div>,
+        sidebar: () => <div>{t('routeTaskName')}</div>,
         main: () => <TodoList todosCompletionFilter={(todo) => !todo.completed}/>
     },
     {
         path: "/completed",
-        sidebar: () => <div>Completed</div>,
+        sidebar: () => <div>{t('routeCompletedName')}</div>,
         main: () => <TodoList todosCompletionFilter={(todo) => todo.completed}/>
     }
-];
+]);

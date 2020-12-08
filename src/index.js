@@ -9,10 +9,11 @@ import mySaga from "./sagas/saga.js";
 import 'leaflet/dist/leaflet.css';
 import {startFirebase} from "./firebase/init.js";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import './i18n';
 import {SW_INIT, SW_UPDATE} from "./store/actions/actionTypes.js";
 serviceWorkerRegistration.register({
-    onSuccess: () => store.dispatch({ type: SW_INIT }),
-    onUpdate: reg => store.dispatch({ type: SW_UPDATE, payload: reg }),
+    onSuccess: () => store.dispatch({type: SW_INIT}),
+    onUpdate: reg => store.dispatch({type: SW_UPDATE, payload: reg}),
 });
 
 const store = configureStore()
