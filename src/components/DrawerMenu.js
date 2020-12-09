@@ -39,14 +39,14 @@ export const DrawerMenu = (props) => {
         <div>
             <div className={classes.toolbar}/>
             <Divider/>
-            <List>
+            { Array.isArray(routes(t)) ? <List>
                 {routes(t).map((route, index) => (
                     <ListItem id={`route-button-${route.name}`} button  key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                         <ListItemText primary={route.sidebar()}/>
                     </ListItem>
                 ))}
-            </List>
+            </List> : <Divider/>}
             <Divider/>
         </div>
     );

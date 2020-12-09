@@ -144,8 +144,8 @@ function App() {
                         </Toolbar>
                     </AppBar>
                     <main className={classes.appContent}>
-                        <Switch>
-                            {routes(t).map((route) => (
+                        {Array.isArray(routes(t)) ? <Switch>
+                            { routes(t).map((route) => (
                                 <Route
                                     key={`route-${route.name}`}
                                     path={route.path}
@@ -153,7 +153,7 @@ function App() {
                                     children={<route.main/>}
                                 />
                             ))}
-                        </Switch>
+                        </Switch> : ''}
                     </main>
                     <BottomPanel/>
                     <Snackbar
