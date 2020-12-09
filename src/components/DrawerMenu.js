@@ -41,7 +41,7 @@ export const DrawerMenu = (props) => {
             <Divider/>
             <List>
                 {routes(t).map((route, index) => (
-                    <ListItem button  key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
+                    <ListItem id={`route-button-${route.name}`} button  key={`${route.path}-${index}`} onClick={() => handleChangeRoute(route)}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
                         <ListItemText primary={route.sidebar()}/>
                     </ListItem>

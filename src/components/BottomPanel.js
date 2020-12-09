@@ -37,8 +37,8 @@ const BottomPanel = (props) => {
 
                         <Accordion expanded={addVisible} className={addVisible ? ".with-shadow" : ""} elevation={20}>
                             <div className={classes.accordion}>
-                                <Fab color="secondary" aria-label="add" onClick={handleFormVisibility}
-                                     className={addVisible ? 'default' : 'opened'}>
+                                <Fab id={"add-task-form--show-button"} color="secondary" aria-label="add" onClick={handleFormVisibility}
+                                     className={addVisible ? 'opened' : 'default'}>
                                     {addVisible ? <Remove/> : <Add/>}
                                 </Fab>
                             </div>

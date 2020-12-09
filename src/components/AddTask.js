@@ -115,6 +115,7 @@ const AddTask = (props) => {
             <Container className={classes.addButtonContainer}>
                 <ButtonGroup fullWidth>
                     <Button
+                        id={'add-task-button'}
                         className={classes.addButton}
                         variant="contained"
                         color="primary"
